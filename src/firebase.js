@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getDatabase } from 'firebase/database';
 
 /**
  * Firebase configuration
@@ -7,17 +7,15 @@ import { getFirestore } from 'firebase/firestore';
  * @property {string} apiKey - API key
  * @property {string} authDomain - Auth domain
  * @property {string} projectId - Project ID
- * @property {string} storageBucket - Storage bucket
  * @property {string} messagingSenderId - Messaging sender ID
  * @property {string} appId - App ID
- * @property {string} measurementId - Measurement ID
  */
 
 const firebaseConfig = {
   apiKey: "AIzaSyCMSZBkiIKNsZuySGymCegqZ2il3tCOaDQ",
   authDomain: "test-zerostic.firebaseapp.com",
+  databaseURL: "https://test-zerostic-default-rtdb.asia-southeast1.firebasedatabase.app/",
   projectId: "test-zerostic",
-  storageBucket: "test-zerostic.appspot.com",
   messagingSenderId: "710223822302",
   appId: "1:710223822302:web:f4650aa40ba254b545714f",
   measurementId: "G-4S1LS6YZFX"
@@ -25,6 +23,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getDatabase(app);
 
 export default db;

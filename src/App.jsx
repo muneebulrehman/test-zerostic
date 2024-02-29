@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { ref, onValue } from 'firebase/database';
 
 import db from './firebase';
 
 import './App.css';
 
-function App() {
+const App = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -20,12 +20,42 @@ function App() {
 
   console.log(data);
 
-  const getEmployees = async () => {
-    const employeesCollection = collection(db, 'employees');
-    const employeeSnapshot = await getDocs(employeesCollection);
-    const employeeList = employeeSnapshot.docs.map((doc) => doc.data());
-    return employeeList;
+  // Function to get employees from the Firebase Realtime Database. Since, the onVlaue function is async, and doesn't return a Promise, so the await will have no effect on it. This means that getEmployees might return employeeList before onValue has finished fetching the data. To fix this, we can wrap the onValue function in a Promise and resolve it when the data is fetched.
+
+  const getEmployees = () => {
+    return new Promise((resolve, reject) => {
+      const employeesRef = ref(db, 'employees');
+      onValue(
+        employeesRef,
+        (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            const employeeList = Object.values(data);
+            resolve(employeeList);
+          } else {
+            resolve([]);
+          }
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
   };
+
+  // const getEmployees = async () => {
+  //   const employeesRef = ref(db, 'employees');
+  //   let employeeList = [];
+
+  //   await onValue(employeesRef, (snapshot) => {
+  //     const data = snapshot.val();
+  //     for (let id in data) {
+  //       employeeList.push(data[id]);
+  //     }
+  //   });
+
+  //   return employeeList;
+  // };
 
   return (
     <>
@@ -34,6 +64,6 @@ function App() {
       </div>
     </>
   );
-}
+};
 
 export default App;
