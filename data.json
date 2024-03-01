@@ -1,0 +1,122 @@
+[
+  {
+    "Name": "John Doe",
+    "Address": "123 Main St, City, Country",
+    "PhoneNumber": 1234567890,
+    "EmployeeID": "E001",
+    "Role": "Manager",
+    "Experience": 5
+  },
+  {
+    "Name": "Jane Smith",
+    "Address": "456 Elm St, Town, Country",
+    "PhoneNumber": 9876543210,
+    "EmployeeID": "E002",
+    "Role": "Assistant Manager",
+    "Experience": 3
+  },
+  {
+    "Name": "Michael Johnson",
+    "Address": "789 Oak St, Village, Country",
+    "PhoneNumber": 5556667777,
+    "EmployeeID": "E003",
+    "Role": "Developer",
+    "Experience": 2
+  },
+  {
+    "Name": "Emily Brown",
+    "Address": "101 Pine St, Hamlet, Country",
+    "PhoneNumber": 3332221111,
+    "EmployeeID": "E004",
+    "Role": "Designer",
+    "Experience": 4
+  },
+  {
+    "Name": "David Wilson",
+    "Address": "321 Maple St, Suburb, Country",
+    "PhoneNumber": 4443332222,
+    "EmployeeID": "E005",
+    "Role": "Analyst",
+    "Experience": 6
+  },
+  {
+    "Name": "Sarah Martinez",
+    "Address": "567 Birch St, City, Country",
+    "PhoneNumber": 1112223333,
+    "EmployeeID": "E006",
+    "Role": "HR Manager",
+    "Experience": 7
+  },
+  {
+    "Name": "Christopher Lee",
+    "Address": "888 Cedar St, Town, Country",
+    "PhoneNumber": 9998887777,
+    "EmployeeID": "E007",
+    "Role": "Sales Representative",
+    "Experience": 1
+  },
+  {
+    "Name": "Jessica Taylor",
+    "Address": "777 Pine St, Village, Country",
+    "PhoneNumber": 6665554444,
+    "EmployeeID": "E008",
+    "Role": "Accountant",
+    "Experience": 4
+  },
+  {
+    "Name": "Daniel Anderson",
+    "Address": "555 Elm St, Hamlet, Country",
+    "PhoneNumber": 2223334444,
+    "EmployeeID": "E009",
+    "Role": "Customer Service",
+    "Experience": 3
+  },
+  {
+    "Name": "Ashley Garcia",
+    "Address": "999 Oak St, Suburb, Country",
+    "PhoneNumber": 7778889999,
+    "EmployeeID": "E010",
+    "Role": "Marketing Manager",
+    "Experience": 8
+  },
+  {
+    "Name": "Matthew Rodriguez",
+    "Address": "444 Maple St, City, Country",
+    "PhoneNumber": 8889990000,
+    "EmployeeID": "E011",
+    "Role": "Consultant",
+    "Experience": 6
+  },
+  {
+    "Name": "Amanda Hernandez",
+    "Address": "222 Birch St, Town, Country",
+    "PhoneNumber": 5551112222,
+    "EmployeeID": "E012",
+    "Role": "Trainer",
+    "Experience": 5
+  },
+  {
+    "Name": "James Smith",
+    "Address": "111 Cedar St, Village, Country",
+    "PhoneNumber": 9991112222,
+    "EmployeeID": "E013",
+    "Role": "Researcher",
+    "Experience": 2
+  },
+  {
+    "Name": "Melissa Lopez",
+    "Address": "777 Oak St, Hamlet, Country",
+    "PhoneNumber": 3339998888,
+    "EmployeeID": "E014",
+    "Role": "Supervisor",
+    "Experience": 4
+  },
+  {
+    "Name": "Ryan Taylor",
+    "Address": "333 Pine St, Suburb, Country",
+    "PhoneNumber": 6662223333,
+    "EmployeeID": "E015",
+    "Role": "Assistant",
+    "Experience": 1
+  }
+]
