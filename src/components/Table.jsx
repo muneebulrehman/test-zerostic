@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import styles from './table.module.css';
 
@@ -16,6 +16,19 @@ import styles from './table.module.css';
  */
 
 const Table = ({ data, rowsPerPage }) => {
+  const [sortInDirection, setSortInDirection] = useState('ascending');
+  const [tableData, setTableData] = useState(data);
+
+  const handleSortDirection = () => {
+    setSortInDirection((prevDirection) =>
+      prevDirection === 'ascending' ? 'descending' : 'ascending'
+    );
+  };
+
+  useEffect(() => {
+    setTableData(data?.slice(0, rowsPerPage));
+  }, [rowsPerPage, data]);
+
   return (
     <table className={styles.table}>
       <thead>
@@ -25,20 +38,33 @@ const Table = ({ data, rowsPerPage }) => {
           <th className={styles.th}>Phone Number</th>
           <th className={styles.th}>Employee ID</th>
           <th className={styles.th}>Role</th>
-          <th className={styles.th}>Experience</th>
+          <th className={styles.th} style={{ cursor: 'pointer' }} onClick={handleSortDirection}>
+            Experience{' '}
+            {sortInDirection === 'ascending' ? (
+              <span>&uarr;</span> // Up arrow for increment
+            ) : (
+              <span>&darr;</span> // Down arrow for decrement
+            )}
+          </th>
         </tr>
       </thead>
       <tbody>
-        {data?.slice(0, rowsPerPage)?.map((item, index) => (
-          <tr key={index}>
-            <td className={styles.td}>{item?.Name || 'Unknown'}</td>
-            <td className={styles.td}>{item?.Address || 'Unknown'}</td>
-            <td className={styles.td}>{item?.PhoneNumber || 'Unknown'}</td>
-            <td className={styles.td}>{item?.EmployeeID || 'Unknown'}</td>
-            <td className={styles.td}>{item?.Role || 'Unknown'}</td>
-            <td className={styles.td}>{item?.Experience || 'Unknown'}</td>
-          </tr>
-        ))}
+        {tableData
+          ?.sort((a, b) =>
+            sortInDirection === 'ascending'
+              ? a.Experience - b.Experience
+              : b.Experience - a.Experience
+          )
+          ?.map((item, index) => (
+            <tr key={index}>
+              <td className={styles.td}>{item?.Name || 'Unknown'}</td>
+              <td className={styles.td}>{item?.Address || 'Unknown'}</td>
+              <td className={styles.td}>{item?.PhoneNumber || 'Unknown'}</td>
+              <td className={styles.td}>{item?.EmployeeID || 'Unknown'}</td>
+              <td className={styles.td}>{item?.Role || 'Unknown'}</td>
+              <td className={styles.td}>{item?.Experience || 'Unknown'}</td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );
