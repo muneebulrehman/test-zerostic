@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ref, onValue, set } from 'firebase/database';
+import { ref, onValue, off } from 'firebase/database';
 
 import db from './firebase';
 import Table from './components/Table';
@@ -7,65 +7,71 @@ import Dropdown from './components/Dropdown';
 
 import './App.css';
 
+/**
+ * App component that fetches employee data from Firebase Realtime Database and displays it in a table.
+ * The number of rows to display can be selected from a dropdown.
+ *
+ * @returns {React.Element} The App component.
+ *
+ * @example
+ * <App />
+ */
+
 const App = () => {
   const [data, setData] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(data?.length || 15);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    getEmployees()
-      .then((employees) => {
-        setData(employees);
-      })
-      .catch((error) => {
-        console.error('Error getting employees:', error);
-      });
-  }, []);
+  const [error, setError] = useState(null);
 
   /**
-   * Fetches employee data from the Firebase Realtime Database.
-   *Since, the onVlaue function is async, and doesn't return a Promise, so the await will have no effect on it. This means that getEmployees might return employeeList before onValue has finished fetching the data. To fix this, we can wrap the onValue function in a Promise and resolve it when the data is fetched.
-   * @returns {Promise<Array>} A promise that resolves with an array of employees.
-   * Each employee is an object containing the employee's data. If there are no employees,
-   * the promise resolves with an empty array. If there's an error fetching the employees,
-   * the promise is rejected with the error.
+   * `useEffect` hook for fetching employee data from Firebase Realtime Database.
+   *
+   * One of the most common issue one might face using Firebase Realtime Database is data not updating in the UI when it changes in the database. This is because the onValue function listens for changes to the data in the database, but it doesn't automatically update the UI when the data changes. To fix this, you can use the useEffect hook to listen for changes to the data and update the UI when the data changes.
+   * 1. Ensuring we are using onvalue correctly.The onValue function takes a callback that is invoked every time the data changes. Make sure you're correctly setting up this listener and updating your component's state in the callback.
+   * 2. Using the useEffect hook to listen for changes to the data and update the UI when the data changes. The useEffect hook allows us to perform side effects in function components, such as fetching data, subscribing to events, or updating the DOM. We can use the useEffect hook to listen for changes to the data in the database and update the component's state when the data changes.
+   *
+   * When the component mounts, it sets up a real-time listener on the 'employees' reference in the database. When the data changes, it updates the `data` state with the new data and sets `loading` to false.
+   *
+   *When the component mounts, it sets up a real-time listener on the 'employees' reference in the database. When the data changes, it updates the `data` state with the new data and sets * `loading` to false.
+   *
+   * When the component unmounts, it removes the listener and sets `loading` to false.
    */
 
-  const getEmployees = () => {
+  useEffect(() => {
+    setRowsPerPage(data?.length || 15);
+  }, [data]);
+
+  useEffect(() => {
     setLoading(true);
-    return new Promise((resolve, reject) => {
-      const employeesRef = ref(db, 'employees');
-      onValue(
-        employeesRef,
-        (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            const employeeList = Object.values(data);
-            resolve(employeeList);
-          } else {
-            resolve([]);
-          }
-        },
-        (error) => {
-          reject(error);
+    const employeesRef = ref(db, 'employees');
+
+    const listener = onValue(
+      employeesRef,
+      (snapshot) => {
+        const newData = snapshot.val();
+        if (newData) {
+          const employeeList = Object.values(newData);
+          setData(employeeList);
+        } else {
+          setData([]);
         }
-      );
-    }).finally(() => setLoading(false));
-  };
+        setLoading(false);
+      },
+      (error) => {
+        console.error('Error fetching employees:', error);
+        setError(error);
+        setLoading(false);
+      }
+    );
 
-  // const getEmployees = async () => {
-  //   const employeesRef = ref(db, 'employees');
-  //   let employeeList = [];
+    return () => {
+      off(employeesRef, listener);
+    };
+  }, []);
 
-  //   await onValue(employeesRef, (snapshot) => {
-  //     const data = snapshot.val();
-  //     for (let id in data) {
-  //       employeeList.push(data[id]);
-  //     }
-  //   });
-
-  //   return employeeList;
-  // };
+  if (error) {
+    return <p>Error loading data: {error.message}</p>;
+  }
 
   return (
     <>
