@@ -17,6 +17,15 @@ This project is a React application that uses Firebase for backend services. It'
 2. Run `npm install` to install all the dependencies.
 3. Create a Firebase project and replace the `firebaseConfig` in `src/firebase.js` with your own Firebase project details.
 
+### Deployment
+
+Visit your deployed project at [https://test-zerostic.web.app/](https://test-zerostic.web.app/).
+
+To deploy on your own Firebase project, run `npm run build` to build the project Make sure you have the Firebase CLI installed and are logged in to your Firebase account.
+
+1. Run `firebase init` to initialize your Firebase project.
+2. Run `firebase deploy` to deploy the project to Firebase.
+
 ### Project Structure
 
 - `src/` - This is where the main application lives.
