@@ -31,12 +31,12 @@ const Table = ({ data, rowsPerPage }) => {
       <tbody>
         {data?.slice(0, rowsPerPage)?.map((item, index) => (
           <tr key={index}>
-            <td className={styles.td}>{item.Name}</td>
-            <td className={styles.td}>{item.Address}</td>
-            <td className={styles.td}>{item.PhoneNumber}</td>
-            <td className={styles.td}>{item.EmployeeID}</td>
-            <td className={styles.td}>{item.Role}</td>
-            <td className={styles.td}>{item.Experience}</td>
+            <td className={styles.td}>{item?.Name || 'Unknown'}</td>
+            <td className={styles.td}>{item?.Address || 'Unknown'}</td>
+            <td className={styles.td}>{item?.PhoneNumber || 'Unknown'}</td>
+            <td className={styles.td}>{item?.EmployeeID || 'Unknown'}</td>
+            <td className={styles.td}>{item?.Role || 'Unknown'}</td>
+            <td className={styles.td}>{item?.Experience || 'Unknown'}</td>
           </tr>
         ))}
       </tbody>
