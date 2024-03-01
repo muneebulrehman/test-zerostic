@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 /**
  * Dropdown component for selecting the number of rows to display.
@@ -14,7 +14,7 @@ import React from 'react';
  * <Dropdown data={[1, 2, 3, 4, 5]} rowsPerPage={2} setRowsPerPage={setRowsPerPage} />
  */
 
-const Dropdown = ({ data, rowsPerPage, setRowsPerPage }) => {
+const Dropdown = memo(({ data, rowsPerPage, setRowsPerPage }) => {
   /**
    * Event handler for the dropdown's change event. Updates the number of rows per page.
    *
@@ -39,6 +39,6 @@ const Dropdown = ({ data, rowsPerPage, setRowsPerPage }) => {
       </select>
     </div>
   );
-};
+});
 
 export default Dropdown;

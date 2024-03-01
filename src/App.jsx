@@ -18,9 +18,9 @@ import './App.css';
  */
 
 const App = () => {
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(data?.length || 15);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   /**
