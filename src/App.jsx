@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, set } from 'firebase/database';
 
 import db from './firebase';
+import Table from './components/Table';
+import Dropdown from './components/Dropdown';
 
 import './App.css';
 
 const App = () => {
   const [data, setData] = useState(null);
+  const [rowsPerPage, setRowsPerPage] = useState(data?.length || 15);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getEmployees()
@@ -18,11 +22,17 @@ const App = () => {
       });
   }, []);
 
-  console.log(data);
-
-  // Function to get employees from the Firebase Realtime Database. Since, the onVlaue function is async, and doesn't return a Promise, so the await will have no effect on it. This means that getEmployees might return employeeList before onValue has finished fetching the data. To fix this, we can wrap the onValue function in a Promise and resolve it when the data is fetched.
+  /**
+   * Fetches employee data from the Firebase Realtime Database.
+   *Since, the onVlaue function is async, and doesn't return a Promise, so the await will have no effect on it. This means that getEmployees might return employeeList before onValue has finished fetching the data. To fix this, we can wrap the onValue function in a Promise and resolve it when the data is fetched.
+   * @returns {Promise<Array>} A promise that resolves with an array of employees.
+   * Each employee is an object containing the employee's data. If there are no employees,
+   * the promise resolves with an empty array. If there's an error fetching the employees,
+   * the promise is rejected with the error.
+   */
 
   const getEmployees = () => {
+    setLoading(true);
     return new Promise((resolve, reject) => {
       const employeesRef = ref(db, 'employees');
       onValue(
@@ -40,7 +50,7 @@ const App = () => {
           reject(error);
         }
       );
-    });
+    }).finally(() => setLoading(false));
   };
 
   // const getEmployees = async () => {
@@ -59,9 +69,14 @@ const App = () => {
 
   return (
     <>
-      <div>
-        <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-      </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          <Dropdown data={data} rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} />
+          <Table data={data} rowsPerPage={rowsPerPage} />
+        </div>
+      )}
     </>
   );
 };
